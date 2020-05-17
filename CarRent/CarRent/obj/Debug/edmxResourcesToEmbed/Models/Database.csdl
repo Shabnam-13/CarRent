@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CarRentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="carColor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Colors" FromRole="carColors" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="carMark">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="carModels" Relationship="Self.FK_carModels_carMarks" FromRole="carMarks" ToRole="carModels" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_carMarks" FromRole="carMarks" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="carModel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="MarkId" Type="Int32" />
+    <NavigationProperty Name="carMark" Relationship="Self.FK_carModels_carMarks" FromRole="carModels" ToRole="carMarks" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_carModels" FromRole="carModels" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MarkId" Type="Int32" />
+    <Property Name="ModelId" Type="Int32" />
+    <Property Name="TypeId" Type="Int32" />
+    <Property Name="Year" Type="Int32" />
+    <Property Name="SeatCapacity" Type="Int32" />
+    <Property Name="Rate" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Plate" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsAviable" Type="Boolean" />
+    <Property Name="ColorId" Type="Int32" />
+    <Property Name="Note" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="carColor" Relationship="Self.FK_Cars_Colors" FromRole="Cars" ToRole="carColors" />
+    <NavigationProperty Name="carMark" Relationship="Self.FK_Cars_carMarks" FromRole="Cars" ToRole="carMarks" />
+    <NavigationProperty Name="carModel" Relationship="Self.FK_Cars_carModels" FromRole="Cars" ToRole="carModels" />
+    <NavigationProperty Name="carType" Relationship="Self.FK_Cars_carTypes" FromRole="Cars" ToRole="carTypes" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Cars" FromRole="Cars" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="carType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_carTypes" FromRole="carTypes" ToRole="Cars" />
+  </EntityType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Identification" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AddedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CarId" Type="Int32" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="OutDate" Type="DateTime" Precision="3" />
+    <Property Name="ReturnedDate" Type="DateTime" Precision="3" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="ReserveDate" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" />
+    <NavigationProperty Name="Car" Relationship="Self.FK_Orders_Cars" FromRole="Orders" ToRole="Cars" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
+  </EntityType>
+  <Association Name="FK_Cars_Colors">
+    <End Role="carColors" Type="Self.carColor" Multiplicity="0..1" />
+    <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carColors">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_carModels_carMarks">
+    <End Role="carMarks" Type="Self.carMark" Multiplicity="0..1" />
+    <End Role="carModels" Type="Self.carModel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carMarks">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="carModels">
+        <PropertyRef Name="MarkId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_carMarks">
+    <End Role="carMarks" Type="Self.carMark" Multiplicity="0..1" />
+    <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carMarks">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="MarkId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_carModels">
+    <End Role="carModels" Type="Self.carModel" Multiplicity="0..1" />
+    <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carModels">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="ModelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Cars_carTypes">
+    <End Role="carTypes" Type="Self.carType" Multiplicity="0..1" />
+    <End Role="Cars" Type="Self.Car" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="carTypes">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cars">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Cars">
+    <End Role="Cars" Type="Self.Car" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cars">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Orders_Customers">
+    <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CarRentEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="carColors" EntityType="Self.carColor" />
+    <EntitySet Name="carMarks" EntityType="Self.carMark" />
+    <EntitySet Name="carModels" EntityType="Self.carModel" />
+    <EntitySet Name="Cars" EntityType="Self.Car" />
+    <EntitySet Name="carTypes" EntityType="Self.carType" />
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Orders" EntityType="Self.Order" />
+    <AssociationSet Name="FK_Cars_Colors" Association="Self.FK_Cars_Colors">
+      <End Role="carColors" EntitySet="carColors" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_carModels_carMarks" Association="Self.FK_carModels_carMarks">
+      <End Role="carMarks" EntitySet="carMarks" />
+      <End Role="carModels" EntitySet="carModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_carMarks" Association="Self.FK_Cars_carMarks">
+      <End Role="carMarks" EntitySet="carMarks" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_carModels" Association="Self.FK_Cars_carModels">
+      <End Role="carModels" EntitySet="carModels" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Cars_carTypes" Association="Self.FK_Cars_carTypes">
+      <End Role="carTypes" EntitySet="carTypes" />
+      <End Role="Cars" EntitySet="Cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Cars" Association="Self.FK_Orders_Cars">
+      <End Role="Cars" EntitySet="Cars" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Orders_Customers" Association="Self.FK_Orders_Customers">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
